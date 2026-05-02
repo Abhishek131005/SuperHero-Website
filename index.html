@@ -1,0 +1,307 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Friendly Neighbourhood Spider-Man</title>
+  <meta name="description" content="An immersive scroll-driven comic experience following the story of your Friendly Neighbourhood Spider-Man — from the bite that changed everything to great responsibility." />
+
+  <!-- Favicon -->
+  <link rel="icon" type="image/png" href="assets/panels/spiderman-face-icon.png" />
+
+  <!-- Google Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Bangers&family=Caveat:wght@700&family=Comic+Neue:ital,wght@0,400;0,700;1,400&family=Playfair+Display:ital,wght@0,400;1,600&family=Dancing+Script:wght@700&display=swap" rel="stylesheet" />
+
+  <!-- GSAP -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollToPlugin.min.js"></script>
+
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+
+  <!-- ============================================================
+       PRELOADER (hidden by default — Phase 2 hook)
+       ============================================================ -->
+  <div id="preloader" aria-hidden="true"></div>
+
+  <!-- Audio stub (Phase 2 hook) -->
+  <audio id="ambient-sfx" src="" preload="none"></audio>
+
+  <!-- ============================================================
+       S1 — HERO / TITLE (Parallax)
+       ============================================================ -->
+  <section id="section-1" class="section-hero" aria-label="Spider-Man hero banner">
+    <!-- Frame-by-frame scrubbed canvas -->
+    <canvas id="hero-canvas" class="hero-canvas"></canvas>
+    <div class="hero-overlay"></div>
+    <div class="hero-content">
+      <p class="hero-subtitle" id="hero-subtitle">Friendly Neighbourhood</p>
+      <h1 class="hero-title" id="hero-title">SPIDER-MAN</h1>
+    </div>
+  </section>
+
+  <!-- ============================================================
+       S2 — THE BITE THAT CHANGED EVERYTHING
+       ============================================================ -->
+  <section id="section-2" class="section-dark" aria-label="The bite that changed everything">
+    <div class="s2-bg" style="background-image: url('assets/panels/s2-bg.jpg');"></div>
+
+    <div class="panel-grid panel-grid-3" role="list">
+      <!-- Panel 1 (OW bubble anchored here) -->
+      <div class="panel-wrapper s2-panel-1" role="listitem">
+        <!-- OW! Speech Bubble — anchored to panel 1 top-left -->
+        <div class="speech-bubble ow-bubble" id="ow-bubble" aria-label="OW!">OW!</div>
+        <div class="number-stamp" aria-label="Panel 1">1</div>
+        <img src="assets/panels/s2-panel-1.png" alt="Peter Parker getting bitten by a radioactive spider" loading="lazy" class="panel-img" />
+      </div>
+      <!-- Panel 2 -->
+      <div class="panel-wrapper s2-panel-2" role="listitem">
+        <div class="number-stamp" aria-label="Panel 2">2</div>
+        <img src="assets/panels/s2-panel-2.png" alt="Peter realising his new spider powers" loading="lazy" class="panel-img" />
+      </div>
+      <!-- Panel 3 -->
+      <div class="panel-wrapper s2-panel-3" role="listitem">
+        <div class="number-stamp" aria-label="Panel 3">3</div>
+        <img src="assets/panels/s2-panel-3.png" alt="Peter discovering he can shoot webs" loading="lazy" class="panel-img" />
+      </div>
+    </div>
+
+    <blockquote class="section-quote s2-quote" id="s2-quote">
+      "THE BITE THAT CHANGED EVERYTHING"
+    </blockquote>
+  </section>
+
+  <!-- ============================================================
+       S3 — WITH GREAT POWER…COMES GREAT RESPONSIBILITY
+       ============================================================ -->
+  <section id="section-3" class="section-dark" aria-label="With great power comes great responsibility">
+    <!-- White flash overlay for Uncle Ben moment -->
+    <div class="flash-overlay" id="s3-flash" aria-hidden="true"></div>
+
+    <div class="panel-grid panel-grid-3" role="list">
+      <!-- Panel 1 -->
+      <div class="panel-wrapper s3-panel s3-panel-1" role="listitem">
+        <div class="number-stamp" aria-label="Panel 1">1</div>
+        <img src="assets/panels/s3-panel-1.png" alt="Peter as Spider-Man, early days" loading="lazy" class="panel-img memory-panel" />
+        <div class="memory-vignette"></div>
+      </div>
+      <!-- Panel 2 -->
+      <div class="panel-wrapper s3-panel s3-panel-2" role="listitem">
+        <div class="number-stamp" aria-label="Panel 2">2</div>
+        <img src="assets/panels/s3-panel-2.png" alt="Uncle Ben teaching Peter about responsibility" loading="lazy" class="panel-img memory-panel" />
+        <div class="memory-vignette"></div>
+      </div>
+      <!-- Panel 3 -->
+      <div class="panel-wrapper s3-panel s3-panel-3" role="listitem">
+        <div class="number-stamp" aria-label="Panel 3">3</div>
+        <img src="assets/panels/s3-panel-3.jpg" alt="Peter becoming the hero he was meant to be" loading="lazy" class="panel-img memory-panel" />
+        <div class="memory-vignette"></div>
+      </div>
+    </div>
+
+    <blockquote class="section-quote s3-quote" id="s3-quote">
+      <span class="typewriter-text" id="s3-typewriter" data-text='"WITH GREAT POWER…COMES GREAT RESPONSIBILITY"'></span>
+      <span class="typewriter-cursor" aria-hidden="true">|</span>
+    </blockquote>
+  </section>
+
+  <!-- ============================================================
+       S4 — TO FIGHT… FOR WHAT'S RIGHT
+       ============================================================ -->
+  <section id="section-4" class="section-dark section-fight" aria-label="To fight for what's right">
+    <div class="s4-bg" aria-hidden="true" style="background-image: url('assets/panels/s4-bg.jpg');"></div>
+
+    <div class="s4-layout">
+      <!-- LEFT: SVG Speech Bubble -->
+      <div class="fight-bubble-wrapper" id="s4-bubble-wrapper">
+        <svg class="fight-bubble-svg" id="s4-bubble-svg" viewBox="0 0 280 280" xmlns="http://www.w3.org/2000/svg" aria-label="To fight… for what's right">
+          <ellipse id="s4-bubble-ellipse" cx="120" cy="120" rx="115" ry="115"
+            stroke="#111" stroke-width="4" fill="white" fill-opacity="0"
+            stroke-dasharray="1050" stroke-dashoffset="1050" />
+          <!-- Tail points RIGHT toward panel 1 (Desktop) -->
+          <polyline class="bubble-tail tail-desktop" points="215,100 270,120 215,140"
+            stroke="#111" stroke-width="4" fill="white" fill-opacity="0" />
+          <!-- Tail points DOWN toward panel 1 (Mobile) -->
+          <polyline class="bubble-tail tail-mobile" points="100,215 120,270 140,215"
+            stroke="#111" stroke-width="4" fill="white" fill-opacity="0" />
+          <text class="bubble-text" text-anchor="middle" opacity="0">
+            <tspan x="120" dy="90" font-family="'Comic Neue', cursive" font-weight="700" font-size="22" fill="#111">"TO FIGHT..."</tspan>
+            <tspan x="120" dy="32" font-family="'Comic Neue', cursive" font-weight="700" font-size="22" fill="#111">"FOR</tspan>
+            <tspan x="120" dy="32" font-family="'Comic Neue', cursive" font-weight="700" font-size="22" fill="#111">WHAT'S RIGHT"</tspan>
+          </text>
+        </svg>
+      </div>
+
+      <!-- RIGHT: Panels -->
+      <div class="s4-panels">
+        <div class="s4-panel-group">
+          <div class="panel-wrapper s4-panel-1" role="listitem">
+            <img src="assets/panels/s4-panel-1.png" alt="Spider-Man revealing his suit" loading="lazy" class="panel-img" />
+          </div>
+        </div>
+        <div class="s4-panel-group">
+          <div class="panel-wrapper s4-panel-2" role="listitem">
+            <img src="assets/panels/s4-panel-2.jpg" alt="Spider-Man in action" loading="lazy" class="panel-img" />
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============================================================
+       S5 — ENTER SINISTER SIX (Villains 1–3)
+       ============================================================ -->
+  <section id="section-5" class="section-dark section-sinister" aria-label="Enter Sinister Six - part one">
+    <!-- Shockwave element -->
+    <div class="shockwave" id="s5-shockwave" aria-hidden="true"></div>
+
+    <h2 class="sinister-heading" id="s5-heading">"ENTER SINISTER SIX"</h2>
+
+    <div class="panel-grid panel-grid-3 villain-grid" role="list">
+      <!-- Villain 1 -->
+      <div class="panel-wrapper villain-panel s5-v1" role="listitem">
+        <div class="ink-bleed-mask">
+          <img src="assets/panels/s5-v1.png" alt="Villain 1 — Sinister Six member" loading="lazy" class="panel-img villain-img" />
+        </div>
+        <p class="villain-caption s5-cap-1" id="s5-cap-1">
+          ""Is that a tail, or are you just happy to see me?”"
+        </p>
+      </div>
+      <!-- Villain 2 -->
+      <div class="panel-wrapper villain-panel s5-v2" role="listitem">
+        <div class="ink-bleed-mask">
+          <img src="assets/panels/s5-v2.png" alt="Villain 2 — Sinister Six member" loading="lazy" class="panel-img villain-img" />
+        </div>
+        <p class="villain-caption s5-cap-2" id="s5-cap-2">
+          ""Seriously, how do you scratch your back in that thing?""
+        </p>
+      </div>
+      <!-- Villain 3 -->
+      <div class="panel-wrapper villain-panel s5-v3" role="listitem">
+        <div class="ink-bleed-mask">
+          <img src="assets/panels/s5-v3.jpg" alt="Villain 3 — Sinister Six member" loading="lazy" class="panel-img villain-img" />
+        </div>
+        <p class="villain-caption s5-cap-3" id="s5-cap-3">
+          ""Sewer-ly you can do better than that, Doc!""
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============================================================
+       S6 — SINISTER SIX (Villains 4–6)
+       ============================================================ -->
+  <section id="section-6" class="section-dark section-sinister" aria-label="Sinister Six - part two">
+
+    <div class="panel-grid panel-grid-3 villain-grid" role="list">
+      <!-- Villain 4 -->
+      <div class="panel-wrapper villain-panel s6-v4" role="listitem">
+        <div class="ink-bleed-mask">
+          <img src="assets/panels/s6-v4.jpg" alt="Villain 4 — Sinister Six member" loading="lazy" class="panel-img villain-img" />
+        </div>
+        <p class="villain-caption s6-cap-4" id="s6-cap-4">
+          "Usually, I have to pay extra for a window seat!"
+        </p>
+      </div>
+      <!-- Villain 5 -->
+      <div class="panel-wrapper villain-panel s6-v5" role="listitem">
+        <div class="ink-bleed-mask">
+          <img src="assets/panels/s6-v5.jpg" alt="Villain 5 — Sinister Six member" loading="lazy" class="panel-img villain-img" />
+        </div>
+        <p class="villain-caption s6-cap-5" id="s6-cap-5">
+          ""Too many limbs, not enough brains.""
+        </p>
+      </div>
+      <!-- Villain 6 -->
+      <div class="panel-wrapper villain-panel s6-v6" role="listitem">
+        <div class="ink-bleed-mask">
+          <img src="assets/panels/s6-v6.jpg" alt="Villain 6 — Sinister Six member" loading="lazy" class="panel-img villain-img" />
+        </div>
+        <p class="villain-caption s6-cap-6" id="s6-cap-6">
+          "Okay, let's take a quick break... I need to buy some more mouthwash for you!"
+        </p>
+      </div>
+    </div>
+
+    <blockquote class="sinister-quote" id="s6-quote">
+      <span class="word-drop">"YOU</span>
+      <span class="word-drop">GUYS</span>
+      <span class="word-drop">MOVE</span>
+      <span class="word-drop">SURPRISINGLY</span>
+      <span class="word-drop">WELL</span>
+      <span class="word-drop">FOR</span>
+      <span class="word-drop">PEOPLE</span>
+      <span class="word-drop">WHO</span>
+      <span class="word-drop">SPEND</span>
+      <span class="word-drop">90%</span>
+      <span class="word-drop">OF</span>
+      <span class="word-drop">THEIR</span>
+      <span class="word-drop">TIME</span>
+      <span class="word-drop">IN</span>
+      <span class="word-drop">PRISON."</span>
+    </blockquote>
+  </section>
+
+  <!-- ============================================================
+       S7 — FELL IN LOVE ♡
+       ============================================================ -->
+  <section id="section-7" class="section-dark section-love" aria-label="Fell in love">
+    <div class="s7-bg" style="background-image: url('assets/panels/s7-bg.jpg');"></div>
+
+    <div class="love-header">
+      <h2 class="love-title" id="s7-title">fell in love</h2>
+      <!-- Heart SVG -->
+      <svg class="love-heart" id="s7-heart" viewBox="0 0 50 45" xmlns="http://www.w3.org/2000/svg" aria-label="heart">
+        <path id="heart-path"
+          d="M25 42 C10 30, 0 22, 0 13 C0 6 6 0 13 0 C17 0 21 2 25 6 C29 2 33 0 37 0 C44 0 50 6 50 13 C50 22 40 30 25 42 Z"
+          stroke="#ff85a1" stroke-width="2.5" fill="none"
+          stroke-dasharray="200" stroke-dashoffset="200" />
+      </svg>
+    </div>
+
+    <div class="panel-grid panel-grid-3 love-grid" role="list">
+      <!-- Panel 1 — Go Get'em Tiger (glitch caption) -->
+      <div class="panel-wrapper love-panel s7-panel-1" role="listitem">
+        <img src="assets/panels/s7-panel-1.jpg" alt="Spider-Man and Mary Jane together" loading="lazy" class="panel-img" />
+        <p class="love-caption glitch-text s7-cap-1" id="s7-cap-1">
+          "Go Get'em Tiger"
+        </p>
+      </div>
+      <!-- Panel 2 — Stop meddling -->
+      <div class="panel-wrapper love-panel s7-panel-2" role="listitem">
+        <img src="assets/panels/s7-panel-2.jpeg" alt="Mary Jane and Peter Parker romantic moment" loading="lazy" class="panel-img" />
+        <p class="love-caption gwen-text s7-cap-2" id="s7-cap-2">
+          "Stop meddling the physics, Peter. The chemistry is already off the mark."
+        </p>
+      </div>
+      <!-- Panel 3 — They say cats… — Ornate golden border -->
+      <div class="panel-wrapper love-panel s7-panel-3 ornate-panel" role="listitem">
+        <img src="assets/panels/s7-panel-3.png" alt="Black Cat - They say cats have nine lives" loading="lazy" class="panel-img" style="object-position: center top;" />
+        <p class="love-caption black-cat-text s7-cap-3" id="s7-cap-3">
+          "They say cats have nine lives, Petey... I think I’d like to spend all of mine with you."
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============================================================
+       S8 — SPIDER LOGO / OUTRO
+       ============================================================ -->
+  <section id="section-8" class="section-outro" aria-label="Spider-Man logo outro">
+    <div class="web-bg" aria-hidden="true"></div>
+    <div class="logo-wrapper">
+      <div class="spider-logo-container" id="spider-container">
+        <img id="spider-logo" src="assets/logo/spider-logo.png" class="spider-logo-img" alt="Spider-Man logo" />
+      </div>
+    </div>
+  </section>
+
+
+
+  <script src="main.js"></script>
+</body>
+</html>
